@@ -48,6 +48,8 @@ function! diffdiff#DiffDiff() range
   silent :put =systemlist('diff -u '.file_ance.' '.file_head.' --label \"'.label_ance.'\" --label \"'.label_head .'\"')
   silent :put =repeat([''], 3)
   silent :put =systemlist('diff -u '.file_ance.' '.file_merg.' --label \"'.label_ance.'\" --label \"'.label_endd .'\"')
+  silent :put =repeat([''], 4)
+  silent :put =systemlist('diff -u '.file_head.' '.file_merg.' --label \"'.label_head.'\" --label \"'.label_endd .'\"')
   call delete(file_head)
   call delete(file_ance)
   call delete(file_merg)

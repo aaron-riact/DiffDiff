@@ -30,7 +30,7 @@ function! diffdiff#DiffDiff() range
     exe 'normal ggdG'
   else
     vnew
-    set filetype=diff
+    setlocal filetype=diff
     let t:_DiffDiffbufnr = bufnr('%')
   endif
 
@@ -38,6 +38,6 @@ function! diffdiff#DiffDiff() range
   silent :execute 'r !echo "\n\n\n"'
   silent :execute 'r !diff -u '.file_ance.' '.file_merg.' --label "'.label_ance.'" --label "'.label_endd .'"'
 
-  set nomodified
+  setlocal nomodified
   nnoremap <silent> <buffer> q :bw<cr>
 endfunction

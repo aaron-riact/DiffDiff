@@ -32,6 +32,7 @@ function! diffdiff#DiffDiff() range
     vnew
     setlocal filetype=diff
     let t:_DiffDiffbufnr = bufnr('%')
+    nnoremap <silent> <buffer> q <cmd>bwipeout!<cr>
   endif
 
   silent :put =systemlist('diff -u '.file_ance.' '.file_head.' --label \"'.label_ance.'\" --label \"'.label_head .'\"')
@@ -42,5 +43,4 @@ function! diffdiff#DiffDiff() range
   call delete(file_merg)
 
   setlocal nomodified
-  nnoremap <silent> <buffer> q :bw<cr>
 endfunction

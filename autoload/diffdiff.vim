@@ -28,9 +28,9 @@ function! diffdiff#DiffDiff()
     let t:_DiffDiffbufnr = bufnr('%')
   endif
 
-  silent :execute 'r !diff -u '.file_ance.' '.file_head.' --label common --label HEAD'
-  silent :execute 'r !echo "\n\n\n"'
-  silent :execute 'r !diff -u '.file_ance.' '.file_merg.' --label common --label merg'
+  silent :put =systemlist('diff -u '.file_ance.' '.file_head.' --label common --label HEAD')
+  silent :put =repeat([''], 3)
+  silent :put =systemlist('diff -u '.file_ance.' '.file_merg.' --label common --label merg')
   call delete(file_head)
   call delete(file_ance)
   call delete(file_merg)

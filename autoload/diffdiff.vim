@@ -26,6 +26,7 @@ function! diffdiff#DiffDiff()
     vnew
     setlocal filetype=diff
     let t:_DiffDiffbufnr = bufnr('%')
+    nnoremap <silent> <buffer> q <cmd>bwipeout!<cr>
   endif
 
   silent :put =systemlist('diff -u '.file_ance.' '.file_head.' --label common --label HEAD')
@@ -36,5 +37,4 @@ function! diffdiff#DiffDiff()
   call delete(file_merg)
 
   setlocal nomodified
-  nnoremap <silent> <buffer> q :bw<cr>
 endfunction

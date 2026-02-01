@@ -37,6 +37,9 @@ function! diffdiff#DiffDiff() range
   silent :execute 'r !diff -u '.file_ance.' '.file_head.' --label "'.label_ance.'" --label "'.label_head .'"'
   silent :execute 'r !echo "\n\n\n"'
   silent :execute 'r !diff -u '.file_ance.' '.file_merg.' --label "'.label_ance.'" --label "'.label_endd .'"'
+  call delete(file_head)
+  call delete(file_ance)
+  call delete(file_merg)
 
   setlocal nomodified
   nnoremap <silent> <buffer> q :bw<cr>

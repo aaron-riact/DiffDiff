@@ -34,9 +34,9 @@ function! diffdiff#DiffDiff() range
     let t:_DiffDiffbufnr = bufnr('%')
   endif
 
-  silent :execute 'r !diff -u '.file_ance.' '.file_head.' --label "'.label_ance.'" --label "'.label_head .'"'
-  silent :execute 'r !echo "\n\n\n"'
-  silent :execute 'r !diff -u '.file_ance.' '.file_merg.' --label "'.label_ance.'" --label "'.label_endd .'"'
+  silent :put =systemlist('diff -u '.file_ance.' '.file_head.' --label \"'.label_ance.'\" --label \"'.label_head .'\"')
+  silent :put =repeat([''], 3)
+  silent :put =systemlist('diff -u '.file_ance.' '.file_merg.' --label \"'.label_ance.'\" --label \"'.label_endd .'\"')
   call delete(file_head)
   call delete(file_ance)
   call delete(file_merg)

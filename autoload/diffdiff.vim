@@ -2,54 +2,14 @@ function! s:getText(lineno)
    return matchstr(getline(a:lineno), '^[<|=>]\{7}\($\| \)\zs.*$')
 endfunction
 
-function! s:findConflictRange()
-  let cur_line = line('.')
-  let first_line = 1
-  let last_line = line('$')
-
-  " Search backwards for the opening marker <<<<<<<
-  let head_line = cur_line
-  while head_line >= first_line
-    if getline(head_line) =~# '^<\{7}<\@!'
-      break
-    endif
-    let head_line -= 1
-  endwhile
-
-  if head_line < first_line || getline(head_line) !~# '^<\{7}<\@!'
-    return [0, 0]
-  endif
-
-  " Search forwards for the closing marker >>>>>>>
-  let end_line = cur_line
-  while end_line <= last_line
-    if getline(end_line) =~# '^>\{7}>\@!'
-      break
-    endif
-    let end_line += 1
-  endwhile
-
-  if end_line > last_line || getline(end_line) !~# '^>\{7}>\@!'
-    return [0, 0]
-  endif
-
-  " Verify cursor is within this conflict block
-  if cur_line < head_line || cur_line > end_line
-    return [0, 0]
-  endif
-
-  return [head_line, end_line]
-endfunction
-
 function! diffdiff#DiffDiffAuto()
-  let [first, last] = s:findConflictRange()
-  if first == 0
-    echohl ErrorMsg
-    echo "No conflict markers found around cursor"
-    echohl None
+  let head_line = search('^<\{7}', 'bcnW')
+  let end_line = search('^>\{7}', 'cnW')
+  if head_line == 0 || end_line == 0
+    echohl ErrorMsg | echo "No conflict markers found around cursor" | echohl None
     return
   endif
-  execute first . ',' . last . 'call diffdiff#DiffDiff()'
+  execute head_line . ',' . end_line . 'call diffdiff#DiffDiff()'
 endfunction
 
 function! diffdiff#DiffDiff() range

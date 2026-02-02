@@ -3,8 +3,8 @@ function! s:getText(lineno)
 endfunction
 
 function! diffdiff#DiffDiffAuto()
-  let head_line = search('^<\{7}', 'bcnW')
-  let end_line = search('^>\{7}', 'cnW')
+  let head_line = getline('.') =~# '^<\{7}' ? line('.') : search('^<\{7}', 'bnW')
+  let end_line = getline('.') =~# '^>\{7}' ? line('.') : search('^>\{7}', 'nW')
   if head_line == 0 || end_line == 0
     echohl ErrorMsg | echo "No conflict markers found around cursor" | echohl None
     return

@@ -1,8 +1,12 @@
 let g:diffdiff_show_head_merge = 0
+let s:last_diff = []
 
 function! diffdiff#Toggle()
   let g:diffdiff_show_head_merge = !g:diffdiff_show_head_merge
   echo 'DiffDiff: showing ' . (g:diffdiff_show_head_merge ? '3 diffs' : '2 diffs')
+  if !empty(s:last_diff)
+    call diffdiff#DiffDiffFromLines(s:last_diff)
+  endif
 endfunction
 
 function! s:getText(lineno)
@@ -21,6 +25,12 @@ endfunction
 
 function! diffdiff#DiffDiff() range
   let diff = getline(a:firstline, a:lastline)
+  let s:last_diff = diff
+  call diffdiff#DiffDiffFromLines(diff)
+endfunction
+
+function! diffdiff#DiffDiffFromLines(diff)
+  let diff = a:diff
   let head_mark = match(diff, '^<\{7}<\@!')
   let ance_mark = match(diff, '^|\{7}|\@!', head_mark+1)
   let merg_mark = match(diff, '^=\{7}=\@!', ance_mark+1)
@@ -30,9 +40,9 @@ function! diffdiff#DiffDiff() range
     let endd_mark = 0 "exclude end marker
   endif
 
-  let label_head = s:getText(a:firstline + head_mark)
-  let label_ance = 'common' "s:getText(a:firstline + ance_mark)
-  let label_endd = s:getText(a:firstline + endd_mark)
+  let label_head = diff[head_mark][8:]
+  let label_ance = 'common'
+  let label_endd = diff[endd_mark][8:]
 
   let file_head = tempname()
   let file_ance = tempname()

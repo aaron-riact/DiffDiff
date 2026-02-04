@@ -1,3 +1,10 @@
+let g:diffdiff_show_head_merge = 0
+
+function! diffdiff#Toggle()
+  let g:diffdiff_show_head_merge = !g:diffdiff_show_head_merge
+  echo 'DiffDiff: showing ' . (g:diffdiff_show_head_merge ? '3 diffs' : '2 diffs')
+endfunction
+
 function! s:getText(lineno)
    return matchstr(getline(a:lineno), '^[<|=>]\{7}\($\| \)\zs.*$')
 endfunction
@@ -48,8 +55,10 @@ function! diffdiff#DiffDiff() range
   silent :put =systemlist('diff -u '.file_ance.' '.file_head.' --label '.shellescape(label_ance).' --label '.shellescape(label_head))
   silent :put =repeat([''], 3)
   silent :put =systemlist('diff -u '.file_ance.' '.file_merg.' --label '.shellescape(label_ance).' --label '.shellescape(label_endd))
-  silent :put =repeat([''], 4)
-  silent :put =systemlist('diff -u '.file_head.' '.file_merg.' --label '.shellescape(label_head).' --label '.shellescape(label_endd))
+  if g:diffdiff_show_head_merge
+    silent :put =repeat([''], 4)
+    silent :put =systemlist('diff -u '.file_head.' '.file_merg.' --label '.shellescape(label_head).' --label '.shellescape(label_endd))
+  endif
   call delete(file_head)
   call delete(file_ance)
   call delete(file_merg)

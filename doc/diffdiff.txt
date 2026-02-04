@@ -1,7 +1,7 @@
-diffdiff.txt   Diff sections of unified diffs
+*diffdiff.txt*   Diff sections of unified diffs
 
 ================================================================================
-CONTENTS                                     diffdiff        diffdiff-contents
+CONTENTS                                     *diffdiff*        *diffdiff-contents*
 
     Installation...........................: diffdiff-installation
     Usage..................................: diffdiff-usage

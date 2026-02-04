@@ -3,30 +3,90 @@
 ================================================================================
 CONTENTS                                     *diffdiff*        *diffdiff-contents*
 
-    Installation...........................: diffdiff-installation
-    Usage..................................: diffdiff-usage
-    Commands...............................: diffdiff-commands
-    Settings...............................: diffdiff-settings
-    Internals..............................: diffdiff-internals
-    Issues.................................: diffdiff-issues
+    Installation...........................: |diffdiff-installation|
+    Usage..................................: |diffdiff-usage|
+    Commands...............................: |diffdiff-commands|
+    Settings...............................: |diffdiff-settings|
+    Issues.................................: |diffdiff-issues|
 
 
 ================================================================================
-INSTALLATION                                             diffdiff-installation
+INSTALLATION                                             *diffdiff-installation*
+
+Using vim-plug: >
+    Plug 'krisl/DiffDiff'
+<
+Or for a local development copy: >
+    Plug '/path/to/DiffDiff'
+<
+Then run `:PlugInstall` and `:helptags ALL`.
 
 ================================================================================
-USAGE                                                           diffdiff-usage
+USAGE                                                           *diffdiff-usage*
+
+DiffDiff helps you understand Git merge conflicts by showing unified diffs
+between the conflicting versions and their common ancestor.
+
+When you have a file with conflict markers like: >
+    <<<<<<< HEAD
+    your changes
+    ||||||| merged common ancestors
+    original code
+    =======
+    their changes
+    >>>>>>> feature-branch
+<
+Place your cursor anywhere inside the conflict block and run `:DiffDiff`.
+A split window will open showing:
+
+1. Diff between common ancestor and HEAD (your changes)
+2. Diff between common ancestor and the incoming branch (their changes)
+
+Optionally, toggle on a third diff showing HEAD vs incoming branch directly
+using `:DiffDiffToggle`.
+
+Press `q` in the diff buffer to close it.
 
 ================================================================================
-COMMANDS                                                     diffdiff-commands
+COMMANDS                                                     *diffdiff-commands*
+
+                                                                      *:DiffDiff*
+:DiffDiff
+    Automatically detect conflict markers around the cursor and show diffs
+    in a vertical split. Works from anywhere inside a conflict block.
+
+                                                                *:DiffDiffToggle*
+:DiffDiffToggle
+    Toggle between showing 2 diffs (default) or 3 diffs. The third diff
+    shows a direct comparison between HEAD and the incoming branch,
+    bypassing the common ancestor. The diff buffer is refreshed immediately.
+
+                                                                    *:DiffRange*
+:{range}DiffRange
+    Manually specify a range containing conflict markers. Useful if
+    automatic detection doesn't work for your use case.
+    Example: `:10,25DiffRange`
 
 ================================================================================
-SETTINGS                                                     diffdiff-settings
+SETTINGS                                                     *diffdiff-settings*
+
+                                                     *g:diffdiff_show_head_merge*
+g:diffdiff_show_head_merge
+    Controls whether the third diff (HEAD vs incoming) is shown.
+    Default: 0 (off)
+
+    To enable by default, add to your vimrc: >
+        let g:diffdiff_show_head_merge = 1
+<
+================================================================================
+ISSUES                                                         *diffdiff-issues*
+
+- Requires `diff` command to be available in PATH
+- Conflict markers must include the common ancestor section (|||||||)
+  which requires `merge.conflictStyle = diff3` in your git config: >
+      git config --global merge.conflictStyle diff3
+<
+- Labels containing special shell characters are properly escaped
 
 ================================================================================
-INTERNALS                                                   diffdiff-internals
-
-================================================================================
-ISSUES                                                         diffdiff-issues
-
 vim:tw=80:sw=4:ft=help:

@@ -8,6 +8,7 @@ CONTENTS                                     *diffdiff*        *diffdiff-content
     Commands...............................: |diffdiff-commands|
     Settings...............................: |diffdiff-settings|
     Issues.................................: |diffdiff-issues|
+    Ideas..................................: |diffdiff-ideas|
 
 
 ================================================================================
@@ -87,6 +88,30 @@ ISSUES                                                         *diffdiff-issues*
       git config --global merge.conflictStyle diff3
 <
 - Labels containing special shell characters are properly escaped
+
+================================================================================
+IDEAS                                                           *diffdiff-ideas*
+
+Potential features for future development:
+
+Navigation ~
+- Jump to next/previous conflict with `:DiffNext` / `:DiffPrev`
+- Conflict count indicator (e.g., "Conflict 2/5")
+- Populate quickfix list with all conflicts for easy navigation
+- Buffer-local mappings when inside a conflict (e.g., `]x` for next)
+
+Resolution ~
+- Quick commands to resolve using "ours", "theirs", or "ancestor"
+- Three-way merge view with synced scrolling
+- Side-by-side vimdiff with the three versions instead of unified diff
+
+Integration ~
+- Auto-detect conflicts on file open
+- Pull labels from actual git refs
+- Show commit messages for HEAD/incoming branches
+
+Display ~
+- Inherit original file's syntax highlighting in diff +/- lines
 
 ================================================================================
 vim:tw=80:sw=4:ft=help:
